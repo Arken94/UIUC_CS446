@@ -3,3 +3,5 @@
 *.pyc
 .idea
 .svn
+mp3/data
+*.DS_Store
