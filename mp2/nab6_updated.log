@@ -1,0 +1,16 @@
+test_forward_shape (test_model.ModelTests) ... ok
+test_forward_zero (test_model.ModelTests) ... ok
+test_loss_backward_no_loss (test_model.ModelTests) ... ok
+test_loss_backward_no_reg (test_model.ModelTests) ... ok
+test_loss_no_loss (test_model.ModelTests) ... ok
+test_loss_no_reg (test_model.ModelTests) ... ok
+test_no_loss_with_reg (test_model.ModelTests) ... ok
+test_analytic (test_analytic.ModelTests) ... ok
+test_first_row (test_io.IoToolsTests) ... ok
+test_one_hot (test_io.IoToolsTests) ... ok
+test_read_dataset_not_none (test_io.IoToolsTests) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.008s
+
+OK
