@@ -1,0 +1,110 @@
+% !TEX root = HW3.tex
+
+\newcommand{\binStudSolA}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We simply take the sign of the predicted real value:
+\[ y = \text{sign}(\bf{w}^\intercal \bf{x}) \]
+}
+
+\newcommand{\binStudSolB}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM B BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Since the sigmoid function maps real numbers to numbers $\in [0, 1]$ its value can be interpreted as a probability. Therefore,
+\[
+	y = 
+	\begin{cases}
+		  1 &\quad \text{if g}(\bf{w}^\intercal \bf{x}) > \alpha\\
+		-1 &\quad \text{if g}(\bf{w}^\intercal \bf{x}) \le \alpha
+	\end{cases}
+\]
+Where $\alpha \in [0, 1]$ is the threshold chosen. A typical choice is $\alpha = 0.5$.\\
+
+Another way to write this is
+\[ y = \text{sign}(\text{g}(\bf{w}^\intercal \bf{x}) - \alpha) \]
+}
+
+\newcommand{\binStudSolC}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM C BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Yes. By the chain rule we have that
+\begin{align*}
+\frac{\partial{g}}{\partial{a}} &= \frac{e^{-a}}{(1 + e^{-a})^2}\\
+&= \frac{1}{1 + e^{-a}} \cdot \frac{e^{-a}}{1 + e^{-a}}\\
+&= \frac{1}{1 + e^{-a}} \cdot \frac{1 + e^{-a} - 1}{1 + e^{-a}}\\
+&= \frac{1}{1 + e^{-a}} \cdot
+	 \left( 1 - \frac{1}{1 + e^{-a}} \right) \\
+&= g(a) \cdot \left(1 - g(a)\right)
+\end{align*}
+}
+
+\newcommand{\binStudSolD}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM D BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\wtx}{\mathbf{w}^\intercal \mathbf{x}}
+\newcommand{\gxi}{\operatorname{g}\left(\mathbf{w}^\intercal \mathbf{x}_i \right)}
+Just like with the least square loss function the update is
+\[ \bf{w} = \bf{w} - \alpha \nabla f \]
+Where $\nabla f$ is defined as
+\[ \nabla f \triangleq \left\langle \frac{\partial{f}}{\partial{\mathbf{w}_k}} \right\rangle_{k=1}^K \]
+where $K$ is the number of dimensions. Now,
+\[
+\frac{
+	\partial{f}
+}{
+	\partial{\mathbf{w}_k}
+} = \sum_{i=1} \frac{\partial{f}}{\partial{\gxi}} \cdot \frac{\partial{\gxi}}{\partial{\bf{w}_k}}
+\]
+But
+\[
+	\frac{\partial{f}}{\partial{\gxi}} = \gxi - y_i
+\]
+And
+\begin{align*}
+\frac{\partial{\gxi}}{\partial{\mathbf{w}_k}} &= 
+	\frac{\partial{\gxi}}{\partial{\wtx_i}} \cdot \frac{\partial{\wtx_i}}{\partial{\mathbf{w}_k}}\\
+&= \left(
+	\operatorname{g}\left( \wtx_i \right)
+	\operatorname{g}\left( -\wtx_i \right)
+\right) \cdot \mathbf{x}_i^k
+\end{align*}
+
+Therefore,
+\[
+\frac{
+	\partial{f}
+}{
+	\partial{\mathbf{w}_k}
+} = \sum_{i=1} \left(
+	\left( \gxi - y_i \right)
+	\operatorname{g}\left( \wtx_i \right)
+	\left(1 - \operatorname{g}\left(\wtx_i \right) \right)
+	\mathbf{x}_i^k
+\right)
+\]
+}
+
+\newcommand{\binStudSolE}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM E BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Lets remember that the expression above comes from using the negative log likelihood of the entire dataset. The expression is derived from
+\[ \prod_{i} p(y^{(i)} | x^{(i)}) \]
+where $p$ follows a logistic distribution.
+The above is true \textbf{if} the data samples are i.i.d. That's the assumption made.
+}
+

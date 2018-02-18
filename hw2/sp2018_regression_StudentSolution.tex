@@ -1,0 +1,143 @@
+% !TEX root = HW2.tex
+\newcommand{\w}{\mathbf{w}^\intercal}
+\newcommand{\spEighteenRegressionOneA}{
+Let $N = |\cD|$, then
+\[\cL = \frac{1}{N} \sum_{i=1}^N{\frac{1}{2}\left(\mathbf{w}^\intercal \dot{\mathbf{x}^{(i)}} + b - y^{(i)}\right)^2} = 
+	\frac{1}{N}
+	\sum_{i=1}^N{
+		\frac{1}{2}
+		\left(
+			\hat{y}^{(i)} - y^{(i)}
+		\right)^2
+	}
+ \]
+}
+
+\newcommand{\spEighteenRegressionOneB}{
+As before, let $N = |\cD|$. Expanding the summation from the previous answer we have that
+\begin{align*}
+\cL &= \frac{1}{2N}
+	\Big[
+		\left(
+			\mathbf{w}^\intercal \dot{\mathbf{x}^{(0)}} + b - y^{(0)}
+		\right)^2 + 
+		\dots + 
+		\left(
+			\mathbf{w}^\intercal \dot{\mathbf{x}^{(i)}} + b - y^{(i)}
+		\right)^2 + 
+		\dots + 
+		\left(
+			\mathbf{w}^\intercal \dot{\mathbf{x}^{(N)}} + b - y^{(N)}
+		\right)^2
+	\Big]\\
+&= \frac{1}{2N}
+	\Big[
+		\left( \hat{y}^{(1)} - y^{(1)} \right)^2 + \dots +
+		\left( \hat{y}^{(i)} - y^{(i)} \right)^2 + \dots + 
+		\left( \hat{y}^{(N)} - y^{(N)} \right)^2
+	\Big]
+\end{align*}
+Note that when taking the derivative w.r.t $\hat{y}^{(i)}$ all the terms except the $i$th one can be treated as constants and, therefore, their derivative will be 0. Then
+\[
+	\frac{\partial{\cL}}{\partial{\hat{y}^{(i)}}} = 
+	\frac{1}{2N}\left[
+		0 + \dots + 
+		2\left( \hat{y}^{(i)} - y^{(i)} \right) + \dots + 0 
+	\right] = 
+	\frac{1}{N}\left(\hat{y}^{(i)} - y^{(i)}\right) \]
+}
+
+\newcommand{\spEighteenRegressionOneC}{
+\\ Lets expand the dot product $\w \mathbf{x}^{(i)}$, I will ignore the bias term since it doesn't have any effect when taking the derivative.
+
+\[ \hat{y}^{(i)} = \w\mathbf{x}^{(i)} = \sum_{k=1}^K{\mathbf{w}_k \mathbf{x}^{(i)}_k} = \mathbf{w}_1\mathbf{x}^{(i)}_0 + \dots + \mathbf{w}_k\mathbf{x}^{(i)}_k + \dots + \mathbf{w}_K\mathbf{x}^{(i)}_K  \]
+Then when taking the derivative most of the terms are treated as constants
+\[ \frac{\partial{\hat{y}^{(i)}}}{\partial{\mathbf{w}_k}} = \mathbf{x}^{(i)}_k \]
+}
+
+\newcommand{\spEighteenRegressionOneD}{
+As before, let $N = |\cD|$. Now lets first look at what $\frac{\partial{\cL}}{\partial{\bf{w}_k}}$ is
+\[ 
+	\frac{\partial{\cL}}{\partial{\bf{w}_k}} = 
+	\sum_{i=1}^N \frac{\partial{\cL}}{\partial{\hat{y}^{(i)}}} \times \frac{\partial{\hat{y}^{(i)}}}{\partial{\bf{w}_k}} =
+	\frac{1}{N}\sum_{i=1}^N \left(\mathbf{w}^\intercal \dot{\mathbf{x}^{(i)}} + b - y^{(i)}\right) \mathbf{x}^{(i)}_k = 
+	\frac{1}{N}\sum_{i=1}^N \left( \hat{y}^{(i)} - y^{(i)} \right)\mathbf{x}^{(i)}_k
+\]
+Finally,
+\[ \nabla_{\bf w} \cL = 
+\Big\langle
+	\frac{\partial{\cL}}{\partial{\bf{w}_0}}, \dots, \frac{\partial{\cL}}{\partial{\bf{w}_K}}
+\Big\rangle\]
+}
+
+\newcommand{\spEighteenRegressionOneE}{
+\begin{align*}
+\frac{\partial{\cL}}{\partial{b}} &=
+	\sum_{i=1}^N \frac{\partial{\cL}}{\partial{\hat{y}^{(i)}}} \times \frac{\partial{\hat{y}^{(i)}}}{\partial{b}}\\
+&= \sum_{i=1}^N 
+		\frac{1}{N}\left(\mathbf{w}^\intercal \dot{\mathbf{x}^{(i)}} + b - y^{(i)}\right) \times 1\\
+&= \frac{1}{N} \sum_{i=1}^N (\hat{y}^{(i)} - y^{(i)})
+\end{align*}
+}
+
+\newcommand{\spEighteenRegressionOneF}{
+\\Using the new notation
+\[ \bf{u}^* =
+	\left(
+		\bf{Z}^\intercal \bf{Z}
+	\right)^{-1}
+	\bf{Z}^\intercal
+	\bf{y}
+\]
+}
+
+\newcommand{\spEighteenRegressionTwoA}{
+\[ p\left( y^{(i)} \vert x^{(i)}, w \right) = \frac{1}{\sqrt{2\pi}}\mathrm{exp}\left( -\frac{1}{2}\left( y^{(i)} - w \cdot x^{(i)}\right)^2 \right) \]
+}
+
+\newcommand{\spEighteenRegressionTwoB}{
+\newcommand{\pProd}{ \prod_{i=1}^N p\left( y^{(i)} \vert x^{(i)}, w\right) }
+\\The likelihood is 
+\[ \pProd = \prod_{i=1}^N \frac{1}{\sqrt{2\pi}}\mathrm{exp}\left( -\frac{1}{2}\left( y^{(i)} - w \cdot x^{(i)}\right)^2 \right) \]
+So when taking the negative log
+\begin{align*}
+-\log\left(
+		\pProd
+	\right) &=
+	-\sum_{i=1}^N
+		\log\left(
+			p\left(
+				y^{(i)} | x^{(i)}, w
+			\right)
+		\right) \\
+&= -\sum_{i=1}^N
+		\log\left(
+			\frac{1}{\sqrt{2\pi}}\mathrm{exp}\left(
+				-\frac{1}{2}\left( y^{(i)} - w \cdot x^{(i)}\right)^2
+			\right)
+		\right)\\
+&= -\sum_{i=1}^N \left(
+		\log\left(
+			\frac{1}{\sqrt{2\pi}}
+		\right) + 
+		\log\left(
+			\mathrm{exp}\left(
+				-\frac{1}{2}\left( y^{(i)} - w \cdot x^{(i)}\right)^2
+			\right)
+		\right)
+	\right)\\
+&= -N\log\left(\frac{1}{\sqrt{2\pi}}\right)
+	 -\sum_{i=1}^N \left(
+	 	-\frac{1}{2}\left( y^{(i)} - w \cdot x^{(i)}\right)^2
+	 \right)\\
+&= \sum_{i=1}^N
+	 	\frac{1}{2}\left( y^{(i)} - w\cdot x^{(i)}\right)^2
+	 - N\log\left( \frac{1}{\sqrt{2\pi}} \right)\\
+&= \sum_{i=1}^N
+	 	\frac{1}{2}\left( y^{(i)} - w\cdot x^{(i)}\right)^2
+	 + \frac{N}{2} \log\left( 2\pi \right) \blacksquare
+\end{align*}
+
+%Furthermore, to optimize the weights of the model we take the $\argmax_w$ of the likelihood which is equivalent to take the $\argmin_w$ of the final expression. Since the $-N\log\left( \frac{1}{\sqrt{2\pi}} \right)$ has no impact on the argmin it can be ignored leaving us with
+%\[ \argmin_w \sum_{i=1}^N \frac{1}{2}\left( y^{(i)} - w \cdot x^{(i)}\right)^2 \]
+}
