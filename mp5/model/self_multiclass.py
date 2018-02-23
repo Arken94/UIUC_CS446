@@ -189,7 +189,6 @@ class MulticlassSVM:
             delta[y[i]] = 1
             col = 1 - delta + WX[:, i]
             y_hat = np.argmax(col)
-            psi[y_hat] = np.ones(W.shape[1]) * X[i]
-            psi[y[i]] = -X[i]
-            result += psi
+            result[y_hat, :] += X[i]
+            result[y[i], :] -= X[i]
         return W + C * result
