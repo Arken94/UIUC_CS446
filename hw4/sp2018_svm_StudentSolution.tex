@@ -127,11 +127,11 @@ K_3\xzPair &= \alpha K_1\xzPair + \beta K_2\xzPair\\
 &= \alpha \phi_1 \left( \bf{x} \right)^\intercal \phi_1\left(\bf{z} \right) + 
 	\beta \phi_2 \left( \bf{x} \right)^\intercal \phi_2\left(\bf{z} \right)\\
 &= \begin{bmatrix}
-	\sqrt{\alpha}\phi_1 \left( \bf{x} \right)^\intercal\\
-	\sqrt{\beta} \phi_2 \left( \bf{x} \right)^\intercal
-\end{bmatrix} \begin{bmatrix}
 	\sqrt{\alpha}\phi_1 \left( \bf{z} \right) &
 	\sqrt{\beta} \phi_2 \left( \bf{z} \right)
+\end{bmatrix} \begin{bmatrix}
+	\sqrt{\alpha}\phi_1 \left( \bf{x} \right)^\intercal\\
+	\sqrt{\beta} \phi_2 \left( \bf{x} \right)^\intercal
 \end{bmatrix}
 \end{align*}
 Therefore, we can define our new $\phi$ function in terms of $\phi_1$ and $\phi_2$. \\
@@ -139,7 +139,7 @@ Suppose $\phi_1(\cdot) \in \mathbb{R}^m$ and $\phi_2(\cdot) \in \mathbb{R}^n$
 \[ \phi(\cdot) = \begin{bmatrix}
 	\sqrt{\alpha}\phi_1 (\cdot) &
 	\sqrt{\beta} \phi_2 (\cdot)
-\end{bmatrix} \in \mathbb{R}^{m+n}\]
+\end{bmatrix}^\intercal \in \mathbb{R}^{m+n}\]
 }
 
 \newcommand{\spEighteenSvmTwoB}{
@@ -148,13 +148,14 @@ K \left(\bf{x}, \bf{z} \right) &= \left( \bf{x}^\intercal \bf{z} \right)^2\\
 &= \left( x_1 z_1 + x_2 z_2  \right)^2\\
 &= (x_1 z_1)^2 + 2x_1 x_2 z_1 z_2 + (x_2 z_2)^2\\
 &= x_1^2 z_1^2 + 2x_1 x_2 z_1 z_2 + x_2^2 z_2^2\\
-&= \begin{bmatrix}
+&= \begin{bmatrix}z_1^2 & \sqrt{2}z_1 z_2 & z_2^2\end{bmatrix}
+\begin{bmatrix}
  	x_1^2\\
 	\sqrt{2}x_1 x_2\\
 	x_2^2
-\end{bmatrix}\begin{bmatrix}z_1^2 & \sqrt{2}z_1 z_2 & z_2^2\end{bmatrix}\\
+\end{bmatrix}\\
 &=\phi(\bf{x})^\intercal \phi(\bf{z})
 \end{align*}
-\[ \therefore \phi(\bf{a}) = \begin{bmatrix}a_1^2 & \sqrt{2}a_1 a_2 & a_2^2\end{bmatrix} \]
+\[ \therefore \phi(\bf{a}) = \begin{bmatrix}a_1^2 & \sqrt{2}a_1 a_2 & a_2^2\end{bmatrix}^\intercal \]
 where \[ \bf{a} = \begin{bmatrix}a_1 &  a_2\end{bmatrix} \]
 }
