@@ -1,0 +1,132 @@
+% !TEX root = HW6.tex
+
+\newcommand{\backpropStudSolA}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+g\prime(x) &= \frac{d}{dx}\sigma (x)\\
+&= \frac{d}{dx} (1 + e^{-x})^{-1}\\
+&= -1 (1 + e^{-x})^{-2}e^{-x}(-1)\\
+&= \frac{e^{-x}}{(1 + e^{-x})^{-2}}\\
+&= \frac{1}{1 + e^{-x}} \frac{e^{-x}}{1 + e^{-x}}\\
+&= \frac{1}{1 + e^{-x}} \frac{1+ e^{-x} - 1}{1 + e^{-x}}\\
+&= \frac{1}{1 + e^{-x}} \left( 1 - \frac{1}{1 + e^{-x}} \right)\\
+& = \sigma(x) \left(1 - \sigma(x) \right)\\
+&= \sigma(x) - \sigma(x)^2
+\end{align*}
+}
+
+\newcommand{\backpropStudSolB}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+\delta_k &= \frac{\partial E}{\partial h_k}\\
+&= \frac{\partial}{\partial h_k}
+	\frac{1}{2}
+	\sum_k \left( c_k - t_k \right)^2\\
+&= \frac{\partial}{\partial h_k}
+	\frac{1}{2} \left( c_k - t_k \right)^2\\
+&= \left( c_k - t_k \right) \frac{\partial}{\partial h_k} c_k\\
+&= \left( c_k - t_k \right) \frac{\partial}{\partial h_k} g \left( h_k \right)\\
+&=  \left( c_k - t_k \right) g\prime(h_k)
+\end{align*}
+}
+
+\newcommand{\backpropStudSolC}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+\frac{\partial E}{\partial w_{jk}} &= \frac{\partial E}{\partial h_k} \frac{\partial h_k}{\partial w_{jk}}\\
+&= \delta_k \frac{\partial h_k}{\partial w_{jk}}\\
+&= \delta_k \frac{\partial}{\partial w_{jk}} \sum_j b_j w_{jk} + f_k\\
+&= \delta_k \frac{\partial}{\partial w_{jk}} b_j w_{jk}\\
+&= \delta_k b_j
+\end{align*}
+}
+
+\newcommand{\backpropStudSolD}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+\frac{\partial E}{\partial f_k} &= \frac{\partial E}{\partial h_k} \frac{\partial h_k}{\partial f_k}\\
+&= \delta_k \frac{\partial}{\partial f_k} \sum_j b_j w_{jk} + f_k\\
+&= \delta_k 
+\end{align*}
+}
+
+\newcommand{\backpropStudSolE}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Note that $$b_j = g(z_j)$$.
+\begin{align*}
+\frac{\partial E}{\partial z_j} &= 
+	\sum_k 
+		\frac{\partial E}{\partial h_k}
+		\sum_j
+			\frac{\partial h_k}{\partial b_j}
+			\frac{\partial b_j}{\partial z_j}\\
+&= \sum_k
+		\delta_k 
+		\sum_j
+			\frac{\partial h_k}{\partial b_j}
+			\frac{\partial b_j}{\partial z_j}\\
+&= \sum_k
+		\delta_k
+		\frac{\partial h_k}{\partial b_j}
+		\frac{\partial b_j}{\partial z_j}\\
+&= \sum_k
+		\delta_k
+		w_{jk}
+		g\prime(z_j)\\
+&= g\prime(z_j) \sum_k
+		\delta_k
+		w_{jk}
+\end{align*}
+}
+
+
+\newcommand{\backpropStudSolF}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Note that 
+\[ \frac{\partial z_j}{\partial u_{ij}} =  \frac{\partial}{\partial u_{ij}} \left( e_j + \sum_i a_i u_{ij} \right) = a_i \]
+Now
+\begin{align*}
+\frac{\partial E}{\partial u_{ij}} &= \frac{\partial E}{\partial z_j} \frac{\partial z_j}{\partial u_{ij}}\\
+&= \psi_j a_i
+\end{align*}
+}
+
+
+
+\newcommand{\backpropStudSolH}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Note that 
+\[ \frac{\partial z_j}{\partial e_j} =  \frac{\partial}{\partial e_j} \left( e_j + \sum_i a_i u_{ij} \right) = 1 \]
+\begin{align*}
+\frac{\partial E}{\partial e_j} &= \frac{\partial E}{\partial z_j} \frac{\partial z_j}{\partial e_j}\\
+&= \psi_j 
+\end{align*}
+}
