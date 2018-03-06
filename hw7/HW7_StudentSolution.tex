@@ -1,0 +1,149 @@
+\newcommand{\MRFStudSolAA}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM 1.a) BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$$5^4$$
+}
+\newcommand{\MRFStudSolAB}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM 1.b) BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+No, because the MRF has cycles in it, e.g. it is not a tree. 
+}
+\newcommand{\MRFStudSolAC}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM 1.c) BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Let's start by noticing that 
+\[\mathcal{R} = \{ \{1\}, \{2\}, \{3\}, \{4\}, \{1, 2\}, \{1, 3\}, \{3, 4\}, \{2, 4\} \}\]
+Since the number of messages is the number of Langrangian multipliers and we have one multiplier for each of the constraints $\sum_{\mathbf{y}_p\\\mathbf{y}_r} b_p(\mathbf{y}_b) = b_r(\mathbf{y}_r)$.\\
+Since $P(r \in \{ \{1, 2\}, \{1, 3\}, \{3, 4\}, \{2, 4\}) = \varnothing$ only the other values of $r$ will generate a constraint. \\
+\[\mathbf{y}_r \in \{1, 2, 3, 4, 5\} \forall r \in  \{ \{1\}, \{2\}, \{3\}, \{4\} \}\]
+Finally, note that there are two parents for each of $r$, that is $|P(r)| = 2$.\\
+Then there are $4\times5\times2 = 40$ constraints and, therefore, 40 messages.
+}
+
+
+\newcommand{\MRFStudSolBA}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM 2.a) BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Lets first find the function of $b_r$ that we are trying to maximize.
+\begin{align*}
+	\begin{bmatrix}
+		b_1(0)\\
+		b_1(1)\\
+		b_2(0)\\
+		b_2(1)\\
+		b_{1, 2}(0, 0)\\
+		b_{1, 2}(0, 1)\\
+		b_{1, 2}(1, 0)\\
+		b_{1, 2}(1, 1)
+	\end{bmatrix}^\intercal
+	\begin{bmatrix}
+		\theta_1(0)\\
+		\theta_1(1)\\
+		\theta_2(0)\\
+		\theta_2(1)\\
+		\theta_{1, 2}(0, 0)\\
+		\theta_{1, 2}(0, 1)\\
+		\theta_{1, 2}(1, 0)\\
+		\theta_{1, 2}(1, 1)
+	\end{bmatrix} &= 
+	\begin{bmatrix}
+		b_1(0)\\
+		b_1(1)\\
+		b_2(0)\\
+		b_2(1)\\
+		b_{1, 2}(0, 0)\\
+		b_{1, 2}(0, 1)\\
+		b_{1, 2}(1, 0)\\
+		b_{1, 2}(1, 1)
+	\end{bmatrix}^\intercal
+	\begin{bmatrix}
+		1\\
+		2\\
+		1\\
+		2\\
+		-1\\
+		2\\
+		-1\\
+		-1
+	\end{bmatrix}\\
+	&= b_1(0) + 2b_1(1) + b_2(0) + 2b_2(1) - \\
+		& \hspace{0.5cm} b_{1, 2}(0, 0) + 2b_{1, 2}(0, 1) - b_{1, 2}(1, 0) - b_{1, 2}(1, 1)\\
+	& := A_b
+\end{align*}
+Then the inference task can be rewritten as  
+\begin{align*}
+\max_{b} A_b \hspace{0.5cm} \text{s.t.} 
+\begin{cases}
+	b_r(\mathbf{y}_r) \ge 0 &\forall r, \mathbf{y}_r \\
+	\sum_{\mathbf{y}_r} b_r(\mathbf{y}_r) = 1 &\forall r\\
+	\sum_{\mathbf{y}_p / \mathbf{y}_r}  b_p(\mathbf{y}_p) = b_r(\mathbf{y}_r) &\forall r, p \in P(r), \mathbf{y}_r
+\end{cases}
+\end{align*}
+Now let's  write the constraints explicitly. 
+
+\begin{align*}
+\max_{b} A_b \hspace{0.5cm} \text{s.t.} 
+\begin{cases}
+	b_1(0) \ge 0\\
+	b_1(1) \ge 0\\
+	b_2(0) \ge 0\\
+	b_2(1) \ge 0\\
+	b_{1,2}(0, 0) \ge 0\\
+	b_{1,2}(0, 1) \ge 0\\
+	b_{1,2}(1, 0) \ge 0\\
+	b_{1,2}(1, 1) \ge 0\\
+	b_1(0) + b_1(1) = 1\\
+	b_2(0) + b_2(1) = 1\\
+	b_{1,2}(0, 0) + b_{1,2}(0, 1) + b_{1,2}(1, 0) + b_{1,2}(1, 1) = 1\\
+	b_{1, 2}(0, 0) + b_{1, 2}(0, 1) = b_1(0)\\
+	b_{1, 2}(1, 0) + b_{1, 2}(1, 1) = b_1(1)\\
+	b_{1, 2}(0, 0) + b_{1, 2}(1, 0) = b_2(0)\\
+	b_{1, 2}(0, 1) + b_{1, 2}(1, 1) = b_2(1)
+\end{cases}
+\end{align*}
+}
+
+\newcommand{\MRFStudSolBB}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM 2.b) BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Note that the new cost function is 
+\[ b_1(0) + 2b_1(1) + b_2(0) + 2b_2(1) - b_{1, 2}(0, 0) + 2b_{1, 2}(0, 1) - b_{1, 2}(1, 0) - b_{1, 2}(1, 1) \]
+By simply looking at the previous item we can see that the maximum value is achieved when letting $b_{1, 2}(0, 1) = 1$. Then the solution is
+The solution is:
+\begin{align*}
+b_1(0) &= 1\\
+b_1(1) &= 0\\
+b_2(0) &= 0\\
+b_2(1) &= 1\\
+b_{1, 2}(0, 0) &= 0\\
+b_{1, 2}(0, 1) &= 1\\
+b_{1, 2}(1, 0) &= 0\\
+b_{1, 2}(1, 1) &= 0
+\end{align*}
+And then the value of our cost function is:
+\[1 + 2(0) + 0 + 2(1) - 0 + 2(1) - 0 - 0 = 1 + 2 + 2 = 5\]
+}
+
+\newcommand{\MRFStudSolBC}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM 2.c) BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Because it becomes very slow for large programs. The reason being that it still has to do exhaustive search on the individual restrictions' arguments. e.g. $b_r(\mathbf{y}_r)$. Which, in large programs, may still be too large. Either $|r|$ is too large for some $r$ or there are too many restrictions, $|\mathcal{R}|$, is too large.
+}
