@@ -1,0 +1,57 @@
+\newcommand{\GMMkMeansStudSolA}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Unsupervised. It doesn't use any kind of label.
+}
+
+\newcommand{\GMMkMeansStudSolB}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+By adding a constraint on $r_{ik}$. We would want $r_{ik}$ to be 1 for one, and only one, $k$ for each $i$. So, our constraints can be written as:
+\[ r_{ik} \in \{0, 1\} \hspace{0.3cm} \forall i \in \{1, 2, \cdots, D \}, \forall r \in \{1, 2, \cdots, K \} \eqno{(1)}\]
+\[ \sum_{k=1}^K r_{ik} = 1 \hspace{0.3cm} \forall i \in \{1, 2, \cdots, D \} \eqno{(2)} \]
+
+Additional to those constraints we could also specify a constraint to ensure the active $k$ is the one corresponding to the closest center:
+\[ r_{ik} = \delta\left( k = \argmin_j ||x_i - \mu_j ||^2 \right) \]
+}
+
+\newcommand{\GMMkMeansStudSolC}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Replace the integrity constraint $r_{ik} \in \{0, 1\}$ with $r_{ik} \in [0, 1]$ and ignore the $\delta$ function.
+}
+
+\newcommand{\GMMkMeansStudSolD}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Using the Elbow method\footnote{\url{https://en.wikipedia.org/wiki/Elbow_method_(clustering)}} we can say that $k = 5$ is the best choice because after that the cost decrease is too small.
+}
+
+\newcommand{\GMMkMeansStudSolE}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The basic $k$-means, using Euclidean distance, is certainly not enough to cluster the provided data. The reason for this is that $k$-means tries to find non-overlapping spherical clusters. This is a consequence of using Euclidean distance and not of the $k$-means algorithm per se.  But $k$-means can be used with a whole family of distance functions. There are distance functions that are kernel based that can effectively identify clusters in this data. A Gaussian Kernel based distance is one of them \footnote{\url{https://sites.google.com/site/dataclusteringalgorithms/kernel-k-means-clustering-algorithm}}, this is sometimes referred as Spectral clustering.
+}
+
+%\newcommand{\GMMkMeansStudSolF}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%
+%%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%}
