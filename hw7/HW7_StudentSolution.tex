@@ -86,7 +86,7 @@ Then the inference task can be rewritten as
 \begin{align*}
 \max_{b} A_b \hspace{0.5cm} \text{s.t.} 
 \begin{cases}
-	b_r(\mathbf{y}_r) \ge 0 &\forall r, \mathbf{y}_r \\
+	b_r(\mathbf{y}_r) \in \{0, 1\} &\forall r, \mathbf{y}_r \\
 	\sum_{\mathbf{y}_r} b_r(\mathbf{y}_r) = 1 &\forall r\\
 	\sum_{\mathbf{y}_p / \mathbf{y}_r}  b_p(\mathbf{y}_p) = b_r(\mathbf{y}_r) &\forall r, p \in P(r), \mathbf{y}_r
 \end{cases}
@@ -96,14 +96,14 @@ Now let's  write the constraints explicitly.
 \begin{align*}
 \max_{b} A_b \hspace{0.5cm} \text{s.t.} 
 \begin{cases}
-	b_1(0) \ge 0\\
-	b_1(1) \ge 0\\
-	b_2(0) \ge 0\\
-	b_2(1) \ge 0\\
-	b_{1,2}(0, 0) \ge 0\\
-	b_{1,2}(0, 1) \ge 0\\
-	b_{1,2}(1, 0) \ge 0\\
-	b_{1,2}(1, 1) \ge 0\\
+	b_1(0) \in \{0, 1\}\\
+	b_1(1) \in \{0, 1\}\\
+	b_2(0) \in \{0, 1\}\\
+	b_2(1) \in \{0, 1\}\\
+	b_{1,2}(0, 0) \in \{0, 1\}\\
+	b_{1,2}(0, 1) \in \{0, 1\}\\
+	b_{1,2}(1, 0) \in \{0, 1\}\\
+	b_{1,2}(1, 1) \in \{0, 1\}\\
 	b_1(0) + b_1(1) = 1\\
 	b_2(0) + b_2(1) = 1\\
 	b_{1,2}(0, 0) + b_{1,2}(0, 1) + b_{1,2}(1, 0) + b_{1,2}(1, 1) = 1\\
