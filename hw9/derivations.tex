@@ -1,0 +1,110 @@
+Lets take the objective function from c)
+\[
+\sum_{k=1}^K z_{ik} \left(
+		\log \pi_k + \log \mathcal{N}\left(x_i | \mu_k, \sigma_k \right)
+	\right)
+\]
+and lets also remember the explicit constraint that $\sum_k \pi_k = 1$. Note that we need to sum over the entire data set so we then can write the dual of the objective function:
+\begin{align*}
+F &= \sum_{i=1}^N \left( \sum_{k=1}^K z_{ik} \left(
+		\log \pi_k + \log \mathcal{N}\left(x_i | \mu_k, \sigma_k \right)
+	\right) \right) + \lambda \left( \sum_k \pi_k - 1 \right)\\
+&= \sum_{i=1}^N \sum_{k=1}^K z_{ik}\log \pi_k +
+	\sum_{i=1}^N \sum_{k=1}^K z_{ik} \log \mathcal{N}\left(x_i | \mu_k, \sigma_k \right)
+	 + \lambda \left( \sum_k \pi_k - 1 \right)
+\end{align*}
+Now lets take the derivative with respect to the variables we want to update on each step and set it to zero:
+
+a) For $\pi_k$ (refers to $\pi_k^{(t+1)}$):
+\begin{align*}
+\frac{\partial F}{\partial \pi_k} &= \sum_{i=1}^N z_{ik} \frac{1}{\pi_k} + 0 + \lambda = 0 
+\iff \pi_k = \frac{\sum_{i=1}^N z_{ik}}{-\lambda}
+\end{align*}
+By using the constraint:
+\begin{align*}
+1 = \sum_{k=1}^K \pi_k &= \sum_{k=1}^K \frac{\sum_{i=1}^N z_{ik}}{-\lambda}\\
+&= \frac{\sum_{i=1}^N \sum_{k=1}^K z_{ik}}{-\lambda}\\
+&= \frac{\sum_{i=1}^N 1}{-\lambda}\\
+&= \frac{N}{-\lambda}\\
+\rightarrow \lambda &= -N
+\end{align*}
+Then
+\begin{align*}
+0 = \frac{\partial F}{\partial \pi_k}  &= \sum_{i=1}^N z_{ik} \frac{1}{\pi_k} + \lambda = \sum_{i=1}^N z_{ik} \frac{1}{\pi_k} - N\\
+\rightarrow \pi_k^{(t+1)} &= \frac{1}{N}\sum_{i=1}^N z_{ik}
+\end{align*}
+
+\pagebreak
+
+\newcommand{\gaussian}{
+	\left(2\pi \sigma_k^2\right)^{-\frac{1}{2}} \exp \left(
+			-\frac{1}{2\sigma_k^2} \left( x_i - \mu_k \right)^2
+		\right)
+}
+
+b) For $\mu_k$:\\
+\begin{align*}
+0 &= \frac{\partial F}{\partial \mu_k}\\
+&=  \frac{\partial}{\partial \mu_k} \left( \sum_{i=1}^N \sum_{k=1}^K z_{ik}\log \pi_k +
+	\sum_{i=1}^N \sum_{k=1}^K z_{ik} \log \mathcal{N}\left(x_i | \mu_k, \sigma_k \right)
+	 + \lambda \left( \sum_k \pi_k - 1 \right) \right)\\
+&= \frac{\partial}{\partial \mu_k} \left( 
+	\sum_{i=1}^N \sum_{k=1}^K z_{ik} \log \mathcal{N}\left(x_i | \mu_k, \sigma_k \right)
+	 + \lambda \left( \sum_k \pi_k - 1 \right) \right)\\
+&= \frac{\partial}{\partial \mu_k}
+	\sum_{i=1}^N z_{ik} \log \mathcal{N}\left(x_i | \mu_k, \sigma_k \right)\\
+&=  \frac{\partial}{\partial \mu_k}
+	\sum_{i=1}^N z_{ik} \log \gaussian\\
+&=  \frac{\partial}{\partial \mu_k} \left(
+	\sum_{i=1}^N z_{ik} \log \left(2\pi \sigma_k^2\right)^{-\frac{1}{2}} +
+	\sum_{i=1}^N z_{ik}  \log \exp \left(
+			-\frac{1}{2\sigma_k^2} \left( x_i - \mu_k \right)^2
+		\right)
+\right)\\
+&=  \frac{\partial}{\partial \mu_k} \left(
+	-\sum_{i=1}^N z_{ik} \log \left((2\pi)^{\frac{1}{2}} \sigma_k\right) +
+	\sum_{i=1}^N z_{ik}  \left(
+			-\frac{1}{2\sigma_k^2} \left( x_i - \mu_k \right)^2
+		\right)
+\right)\\
+&=  \frac{\partial}{\partial \mu_k} \left(
+	\sum_{i=1}^N z_{ik}  \left(
+			-\frac{1}{2\sigma_k^2} \left( x_i - \mu_k \right)^2
+		\right)
+\right)\\
+&= \sum_{i=1}^N z_{ik}  \left(
+	\frac{1}{2\sigma_k^2} \left( x_i - \mu_k \right)
+\right)\\
+& \rightarrow \sum_{i=1}^N z_{ik}  \left( x_i - \mu_k \right) = 0\\
+& \rightarrow \sum_{i=1}^N z_{ik} x_i = \sum_{i=1}^N z_{ik} \mu_k\\
+& \rightarrow \mu_k = \frac{\sum_{i=1}^N z_{ik} x_i}{\sum_{i=1}^N z_{ik}}\\
+& \rightarrow \mu_k =  \frac{\sum_{i=1}^N z_{ik} x_i}{N \pi_k^{(t+1)}} = \mu_k^{(t+1)}\\
+\end{align*}
+
+\pagebreak
+
+c) For $\sigma_k$:\\
+Reusing some derivations from b)
+\begin{align*}
+0 &= \frac{\partial}{\partial \sigma_k} \left(
+	-\sum_{i=1}^N z_{ik} \log \left((2\pi)^{\frac{1}{2}} \sigma_k\right) +
+	\sum_{i=1}^N z_{ik}  \left(
+			-\frac{1}{2\sigma_k^2} \left( x_i - \mu_k \right)^2
+		\right)
+\right)\\
+&= \frac{\partial}{\partial \sigma_k} \left(
+	-\sum_{i=1}^N z_{ik} \log  \sigma_k +
+	\sum_{i=1}^N z_{ik}  \left(
+			-\frac{1}{2\sigma_k^2} \left( x_i - \mu_k \right)^2
+		\right)
+\right)\\
+&= -\frac{1}{\sigma_k}\sum_{i=1}^N z_{ik} + \frac{1}{\sigma_k^3}\sum_{i=1}^N z_{ik} \left( x_i - \mu_k \right)^2
+\end{align*}
+Multiplying by $\sigma_k^3$ on both sides
+\begin{align*}
+0 &= -\sigma_k^2 \sum_{i=1}^N z_{ik} + \sum_{i=1}^N z_{ik} \left( x_i - \mu_k \right)^2\\
+\sigma_k^2 \sum_{i=1}^N z_{ik} &= \sum_{i=1}^N z_{ik} \left( x_i - \mu_k \right)^2\\
+\sigma_k^2 &= \frac{\sum_{i=1}^N z_{ik} \left( x_i - \mu_k \right)^2}{\sum_{i=1}^N z_{ik}}\\
+\sigma_k^2 &= \frac{\sum_{i=1}^N z_{ik} \left( x_i - \mu_k \right)^2}{N\pi_k^{(t+1)}} = 
+	\frac{\sum_{i=1}^N z_{ik} \left( x_i - \mu_k^{(t+1)} \right)^2}{N\pi_k^{(t+1)}}
+\end{align*}

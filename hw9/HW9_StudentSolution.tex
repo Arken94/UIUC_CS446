@@ -1,0 +1,138 @@
+\newcommand{\GMMkMeansStudSolA}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+\text{LL} &= \ln \prod_{x_i \in X} p\left(x_i; \theta \right)\\
+&= \sum_{x_i \in X} \ln p\left(x_i; \theta \right)\\
+&= \sum_{x_i \in X} \ln \sum_{k = 1}^K p\left(x_i ; \mu_k, \sigma_k \right)\\
+&= \sum_{x_i \in X} 
+		\ln
+			\sum_{k = 1}^K
+				\pi_k \mathcal{N}\left(
+					x_i | \mu_k, \sigma_k
+				\right)\\
+&= \sum_{x_i \in X} 
+		\ln
+			\sum_{k = 1}^K
+				\pi_k  \left(2\pi \sigma_k^2\right)^{-\frac{1}{2}} \exp \left(
+					-\frac{1}{2\sigma_k^2} \left( x_i - \mu_k \right)^2
+				\right)
+\end{align*}
+Where the last equality follows because we are dealing 1-d data so there is no need for determinant or matrix inverses.
+}
+
+\newcommand{\GMMkMeansStudSolB}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+p\left( z_i = k | x_i; \theta^{(t)} \right) &= \frac{p\left(z_i = k, x_i; \theta^{(t)} \right)}{p\left( x_i; \theta^{(t)} \right)}\\
+&= \frac{p\left(z_i = k; \theta^{(t)} \right) p\left( x_i | z_i = k; \theta^{(t)} \right)}{p\left( x_i; \theta^{(t)} \right)}\\
+&= \frac{p\left(z_i = k; \theta^{(t)} \right) p\left( x_i | z_i = k; \theta^{(t)} \right)}
+	{\sum_{j = 1}^K p\left( x_i, z_i = j; \theta^{(t)}_k \right)}\\
+&= \frac{p\left(z_i = k; \theta^{(t)} \right) p\left( x_i | z_i = k; \theta^{(t)} \right)}
+	{\sum_{j = 1}^K p\left(z_i = j; \theta^{(t)} \right)  p\left( x_i | z_i = j; \theta^{(t)} \right)}\\
+&= \frac{\pi_k \mathcal{N}\left(x_i | \mu_k^{(t)}, \sigma_k^{(t)} \right)}
+	{\sum_{j = 1}^K \pi_j \mathcal{N}\left(x_i | \mu_j^{(t)}, \sigma_j^{(t)} \right)}
+\end{align*}
+}
+
+\newcommand{\GMMkMeansStudSolC}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+\bE_{z_i| x_i; \theta^{(t)}}[\log p(x_i, z_i; \theta)] &= 
+	\bE_{z_i| x_i; \theta^{(t)}}\left[
+		\log \prod_{k=1}^K p\left(x_i, z_i; \theta_k\right)^{\delta\left(z_i = k\right)}
+	\right]\\
+&= \bE_{z_i| x_i; \theta^{(t)}}\left[
+		\sum_{k=1}^K \log p\left(x_i, z_i = k; \theta_k\right)^{\delta\left(z_i = k\right)}
+	\right]\\
+&= \sum_{k=1}^K \bE_{z_i| x_i; \theta^{(t)}}\left[
+		\log p\left(x_i, z_i = k; \theta_k\right)^{\delta\left(z_i = k\right)}
+	\right]\\
+&= \sum_{k=1}^K \bE_{z_i| x_i; \theta^{(t)}}\left[
+		\delta\left(z_i = k\right)		
+		\log p\left(x_i, z_i = k; \theta_k\right)
+	\right]\\
+&= \sum_{k=1}^K \bE_{z_i| x_i; \theta^{(t)}}\left[
+		\delta\left(z_i = k\right)		
+		\log p\left(z_i = k | x_i; \theta_k\right) p\left( x_i; \theta_k \right)
+	\right]\\
+&= \sum_{k=1}^K \bE_{z_i| x_i; \theta^{(t)}}\left[
+		\delta\left(z_i = k\right)		
+		\log \pi_k p\left( x_i; \theta_k \right)
+	\right]\\
+&= \sum_{k=1}^K \bE_{z_i| x_i; \theta^{(t)}}\left[
+		\delta\left(z_i = k\right)
+	\right]
+	\log \pi_k p\left( x_i; \theta_k \right)\\
+&= \sum_{k=1}^K p\left(z_i = k | x_i; \theta^{(t)} \right)
+	\log \pi_k p\left( x_i; \theta_k \right)\\
+&= \sum_{k=1}^K z_{ik}
+	\log \pi_k p\left( x_i; \theta_k \right)\\
+&= \sum_{k=1}^K z_{ik} \left(
+		\log \pi_k + \log p\left( x_i; \theta_k \right)
+	\right)\\
+&= \sum_{k=1}^K z_{ik} \left(
+		\log \pi_k + \log \mathcal{N}\left(x_i | \mu_k, \sigma_k \right)
+	\right)
+\end{align*}
+
+The idea of using a product with an indicator function as an exponent was taken from the textbook. I really liked that trick so decided to use it. Apparently there are easier ways to derive this result by just using the definition of an expectation.
+}
+
+\newcommand{\GMMkMeansStudSolD}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Summarizing:
+\begin{align*}
+\pi_k^{(t+1)} &= \frac{1}{N} \sum_{i = 1}^N z_{ik}\\
+\mu_k^{(t+1)} &= \frac{\sum_{i=1}^N z_{ik}x_i}{N\pi_k^{(t+1)}} \\
+\sigma_k^{2, (t+1)} &= \frac{
+	\sum_{i=1}^N z_{ik} \left(
+		x_i - \mu_k^{(t+1)}
+	\right)^2
+}{N\pi_k^{(t+1)}}
+\end{align*}
+
+The whole derivation can be found at the end of this report. For some reason this template does not like boxes that span multiple pages.
+}
+
+\newcommand{\GMMkMeansStudSolE}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+\pi_k^{(t+1)} &= \frac{1}{K} \hspace{0.2cm} \forall k\\
+\sigma_k^{(t+1)} &= c \hspace{0.2cm} \forall k\\
+c \downarrow 0
+\end{align*}
+
+Other relations include:\\
+1) distance measure is different. k-Means uses Euclidean distance whereas GMM uses a Gaussian probability.\\
+2) kMeans assumes the data is spherically clustered, as consequence of using Euclidean distance.
+}
+%% z_{ik} &\approx \delta\left(k = \argmin_j ||x_i - \mu_j||^2 \right)
+
+\newcommand{\GMMkMeansStudSolF}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{12cm}
+}
