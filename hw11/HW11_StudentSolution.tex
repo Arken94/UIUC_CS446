@@ -1,0 +1,150 @@
+\newcommand{\Dstar}{\frac{p_{data}(x)}{p_{data}(x) + p_G(x)}}
+
+\newcommand{\GANStudSolA}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\[
+	V(G_\theta, D_w) = \mathbb{E}_{x \sim p_X} \left[ \log D_w(x) \right] +
+		\mathbb{E}_{z \sim Z} \left[ 1 - \log D_w \left( G_\theta(z) \right) \right]
+\]
+}
+
+\newcommand{\GANStudSolB}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+V(G_\theta, D) &= \int_x p_{data}(x) \log \left( D(x) \right) dx + \mathbb{E}_{z \sim Z} \left[ 1 - \log D_w \left( G_\theta(z) \right) \right]\\
+&= \int_x p_{data}(x) \log \left( D(x) \right) dx + \int_z p_Z (z) \log \left( 1 - D \left( G_\theta (z) \right)\right) dz\\
+&= \int_x p_{data}(x) \log \left( D(x) \right) dx + \int_x p_{G}(x) \log \left(1 - D(x) \right) dx\\
+&= \int_x p_{data}(x) \log \left( D(x) \right) + p_{G}(x) \log \left(1 - D(x) \right) dx
+\end{align*}
+
+Where
+\[
+	\int_z p_Z (z) \log \left( 1 - D \left( G_\theta (z) \right)\right) dz = \int_x p_{G}(x) \log \left(1 - D(x) \right) dx
+\]
+follows from applying LOTUS to $\mathbb{E}_{z \sim Z} \left[ 1 - \log D_w \left( G_\theta(z) \right) \right]$ with the change of variable $X = G_\theta(Z)$. 
+}
+
+\newcommand{\GANStudSolC}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Following the Euler-Lagrange statement that the stationary point $q$ of
+\[ S(q) = \int_a^b L(t, q(t), \dot{q}(t))dt \]
+is given by the solution of 
+$$
+\frac{\partial L(t, q, \dot{q})}{\partial q} - \frac{d}{dx} \frac{\partial L(t, q, \dot{q})}{\partial \dot{q}} = 0
+$$
+
+In our case, let 
+\[
+	L(x, D, \dot{D}) = p_{data}(x) \log \left( D(x) \right) + p_{G}(x) \log \left(1 - D(x) \right) 
+\]
+So finding the optimal discriminator is the same thing as finding the stationary point in our Euler-Lagrange equation.
+Then
+\begin{align*}
+	\frac{\partial L(t, q, \dot{q})}{\partial q} - \frac{d}{dx} \frac{\partial L(t, q, \dot{q})}{\partial \dot{q}} &= \frac{\partial L(t, q, \dot{q})}{\partial q} - \frac{d}{dx}(0)\\
+	&= \frac{p_{data}}{D^*(x)} - \frac{p_G(x)}{1 - D^*(x)} = 0\\
+	&\rightarrow p_{data}(x) - D^*(x) \left[ p_G(x) + p_{data}(x) \right] = 0\\
+	&\rightarrow D^*(x) = \Dstar
+\end{align*}
+}
+
+\newcommand{\GANStudSolD}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Let's first look at what value of $V(G, D*)$ we get when $p_G = p_{data}$. Note that a consequence of this is $D*(x) = \frac{1}{2}$. Then
+
+\begin{align*}
+	V(G, D^*) &= \int_x p_{data}(x) \log \frac{1}{2} + p_{G}(x) \log \frac{1}{2} dx\\
+	&= \log \frac{1}{2} \int_x p_{data}(x) + p_{G}(x) dx\\
+	&= 2 \log \frac{1}{2}\\
+	&= - \log 4
+\end{align*}
+
+Given the previous result for the optimal $D$:
+\[ D^*(x) = \Dstar \]
+We can rewrite $V(G, D)$ as 
+\begin{align*}
+V(G, D^*) &= \int_x p_{data}(x) \log \left( D(x) \right) + p_{G}(x) \log \left(1 - D(x) \right) dx\\
+&= \int_x p_{data}(x) \log \left( D(x) \right) + p_{G}(x) \log \left(1 - D(x) \right) dx\\
+&= \int_x p_{data}(x) \log \left( \Dstar \right) + p_{G}(x) \log \left(1 - \Dstar \right) dx\\
+&= \int_x p_{data}(x) \log \left(
+	\frac{p_{data}(x)}{p_{data}(x) + p_G(x)}
+\right) + p_{G}(x) \log \left(
+	\frac{p_G(x)}{p_{data}(x) + p_G(x)}
+\right) dx\\
+&= \int_x p_{data}(x) \log \left(
+	\frac{1}{2} \cdot \frac{p_{data}(x)}{\frac{p_{data}(x) + p_G(x)}{2}}
+\right) + p_{G}(x) \log \left(
+	\frac{1}{2} \cdot \frac{p_g(x)}{\frac{p_{data}(x) + p_G(x)}{2}}
+\right) dx\\
+&= \int_x p_{data}(x) \left(\log \frac{1}{2} + \log \left(
+	\frac{p_{data}(x)}{\frac{p_{data}(x) + p_G(x)}{2}}
+\right)\right) + p_{G}(x) \left(\log \frac{1}{2}  + \log \left(
+	\frac{p_G(x)}{\frac{p_{data}(x) + p_g(x)}{2}}
+\right)\right) dx\\
+&= \log \frac{1}{2} \int_x p_{data}(x) + p_{G}(x) dx + 
+\int_x p_{data}(x) \log \left(
+	\frac{p_{data}(x)}{\frac{p_{data}(x) + p_G(x)}{2}}
+\right)\\
+& \hspace{2cm} + \int_x p_{G}(x) \log \left(
+	\frac{p_G(x)}{\frac{p_{data}(x) + p_G(x)}{2}}
+\right)dx\\
+&= -\log 4 + D_{KL}(p_{data} || M) + D_{KL}(p_G || M)\\
+&\ge -\log 4
+\end{align*}
+The inequality follows from the non-negativity of $D_{KL}$ (proven in the previous HW). From this we can conclude that $ -\log 4 $ is the global minimum and, therefore, the optimal generator $G^*(x)$ generates data with distribution $p^*_G = p_{data}$
+}
+
+\newcommand{\GANStudSolE}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+KL divergence:\\
+\[D_{KL}(\mathbb{P}_1 || \mathbb{P}_2) = \infty \]
+Since $\mathbb{P}_2$ becomes 0 in a region of $\mathbb{P}_1$ domain and makes the $\log$ blow up to $\infty$. For the same reason:
+
+\[D_{KL}(\mathbb{P}_1 || \mathbb{P}_3) = \infty \]\\
+
+
+Wasserstein distances:\\
+\[ \mathbb{W}_1(U, V) = \int_{\gamma \in \Gamma(U, V)} | F(U) - F(V) | d\gamma \] 
+where $F$ denotes the CDF of the distribution. 
+
+Then:
+\begin{align*}
+\mathbb{W}_1(\mathbb{P}_1, \mathbb{P}_2) &= 
+	\int_{\gamma \in \Gamma(\mathbb{P}_1, \mathbb{P}_2)} | F(\mathbb{P}_1) - F(\mathbb{P}_2) | d\gamma\\
+&= \int_{\gamma \in \Gamma(\mathbb{P}_1, \mathbb{P}_2)} | F(\mathbb{P}_1) - F(\mathbb{P}_2) | d\gamma\\
+&= \int_0^{0.5} F(\mathbb{P}_1)d\gamma + \int_{0.5}^1 | F(\mathbb{P}_1) - F(\mathbb{P}_2) | d\gamma + \int_1^{1.5} F(\mathbb{P}_2)d\gamma\\
+&= \int_0^{0.5} \frac{\gamma - 0}{1 - 0}d\gamma + 
+	 \int_{0.5}^1 |  \frac{\gamma - 0}{1 - 0} -  \frac{\gamma - 0.5}{1.5 - 0.5} | d\gamma +
+	 \int_1^{1.5} \frac{\gamma - 0.5}{1.5 - 0.5} d\gamma\\
+&= \frac{\gamma^2}{2}\bigg\rvert_0^{0.5} + 
+	0.5\gamma\bigg\rvert_{0.5}^1 +
+	\left( 1.5\gamma - \frac{\gamma^2}{2}\right) \bigg\rvert_1^{1.5} \\
+&= 0.5
+\end{align*}
+
+Following the same process (not shown):
+\[
+	\mathbb{W}_1(\mathbb{P}_1, \mathbb{P}_3) = 1
+\]
+}

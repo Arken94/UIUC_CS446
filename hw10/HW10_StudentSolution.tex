@@ -1,0 +1,155 @@
+
+\newcommand{\VAESolAa}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\[
+	D_{KL} \left( q(x) || p(x) \right) = \int_{-\infty}^{\infty} q(x) \ln \frac{q(x)}{p(x)} dx
+\]
+}
+
+\newcommand{\VAESolAb}{
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%
+	%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+	%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+\int_{-\infty}^{\infty} q(x) \ln \frac{q(x)}{p(x)} dx &= \int_{-\infty}^{\infty} q(x) \left( - \ln \frac{p(x)}{q(x)} \right)dx\\
+&\ge -\ln \int_{-\infty}^{\infty} q(x) \frac{p(x)}{q(x)} dx\\
+&= -\ln \int_{-\infty}^{\infty} p(x) dx\\
+&= -\ln 1\\
+&= 0
+\end{align*}
+Where the inequality follows from Jensen given the fact that $\ln(\cdot)$ is concave and, therefore, $-\ln(\cdot)$ is convex. And the one before last equality follows because $p(x)$ is a probability density function so it must sum up to 1.
+}
+
+
+\newcommand{\VAESolBa}{	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM B BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{align*}
+\log p_\theta(x) &= \int_z q_\phi(z|x)\log\frac{p_\theta(x,z)}{q_\phi(z|x)}dz + \int_z q_\phi(z|x)\log\frac{q_\phi(z|x)}{p_\theta(z|x)}dz \\
+&= \int_z q_\phi(z|x)\log\frac{p_\theta(x,z)}{q_\phi(z|x)}dz + D_{KL}\left(q_\phi(z|x)||p_\theta(z|x)\right)\\
+&\ge \int_z q_\phi(z|x)\log\frac{p_\theta(x,z)}{q_\phi(z|x)}dz
+\end{align*}
+}
+
+\newcommand{\VAESolBb}{	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%
+	%%.   YOUR SOLUTION FOR PROBLEM B BELOW THIS COMMENT
+	%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ELBO: Empirical Lower Bound
+}
+
+\newcommand{\VAESolBc}{	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%
+	%%.   YOUR SOLUTION FOR PROBLEM B BELOW THIS COMMENT
+	%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+When $q(z | x)$ approximates $p(z | x)$ (almost) everywhere, which is the same as having KL-divergence to be zero.
+}
+
+\newcommand{\VAESolBd}{	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%
+	%%.   YOUR SOLUTION FOR PROBLEM B BELOW THIS COMMENT
+	%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\[
+	\max_{\phi, \theta} \int_z q_\phi(z|x)\log\frac{p_\theta(x,z)}{q_\phi(z|x)}dz \approx \max_{\phi, \theta} \left( -D_{KL}(q_\phi || p) + \frac{1}{N} \sum_{i=1}^N \ln p_\theta (x|z^i) \right)
+\]
+Where $N$ is the number of samples to be drawn to approximate the expected distribution of $\log p(x|z)$ and $z^i$ the corresponding latent variable for the drawn sample.
+}
+
+\newcommand{\VAESolC}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM C BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Lets remember the definition of KL divergence:
+\[
+	D_{KL}(X||Y) = \mathbb{E}_X \left[ \log \frac{X}{Y} \right] = \mathbb{E}_X \left[ \log X - \log Y \right]
+\]
+In this particular case $X = q(z|x) \sim \mathcal{N}(\mu_z, \sigma_z^2)$ and $Y = p(z) \sim \mathcal{N}(0, 1)$.
+
+So lets first look at $\log \mathcal{N} (\mu, \sigma^2)$ in general:
+\begin{align*}
+\log \mathcal{N} (\mu, \sigma^2) 
+&= \log \left[
+		(2\pi \sigma^2 )^{-\frac{1}{2}} 
+		\exp \left( 
+			-\frac{1}{2} \sigma^{-2} (x - \mu)^2
+		\right) 
+	\right]\\
+&= -\frac{1}{2} \log (2\pi \sigma^2) -\frac{1}{2} \sigma^{-2} (x - \mu)^2\\
+&= -\frac{1}{2} \log (2\pi) - \frac{1}{2} \log \sigma^2 -\frac{1}{2} \sigma^{-2} (x - \mu)^2\\
+\end{align*}
+
+So
+\begin{fleqn}
+\begin{align*}
+&D_{KL}(\mathcal{N}(\mu_z, \sigma_z^2)||\mathcal{N}(0, 1))\\
+&= \mathbb{E}_{\mathcal{N}(\mu_z, \sigma_z^2)} \left[
+		\log \mathcal{N} (\mu_z, \sigma_z^2) - \log \mathcal{N} (0, 1) 
+	\right]\\
+&= \mathbb{E}_{\mathcal{N}(\mu_z, \sigma_z^2)} \Bigg[
+		 \left( -\frac{1}{2} \log (2\pi) - \frac{1}{2} \log \sigma_z^2 -\frac{1}{2} \sigma_z^{-2} (x - \mu_z)^2 \right) -\\
+		 & \hspace{2.3cm} \left(  -\frac{1}{2} \log (2\pi) - \frac{1}{2} \log 1 -\frac{1}{2} 1^{-2} (x - 0)^2 \right)
+	\Bigg] &\\
+&= \mathbb{E}_{\mathcal{N}(\mu_z, \sigma_z^2)} \Bigg[
+		 \left(- \frac{1}{2} \log \sigma_z^2 -\frac{1}{2} \sigma_z^{-2} (x - \mu_z)^2 \right)+\frac{1}{2} (x - 0)^2
+	\Bigg] &\\
+&= \mathbb{E}_{\mathcal{N}(\mu_z, \sigma_z^2)} \Bigg[
+		 - \frac{1}{2} \log \sigma_z^2 -\frac{1}{2} \sigma_z^{-2} (x - \mu_z)^2 +\frac{1}{2} (x - 0)^2
+	\Bigg] &\\
+&= - \frac{1}{2} \log \sigma_z^2 
+		  -\frac{1}{2} \sigma_z^{-2} \mathbb{E}_{\mathcal{N}(\mu_z, \sigma_z^2)} \left[(x - \mu_z)^2 \right] + \mathbb{E}_{\mathcal{N}(\mu_z, \sigma_z^2)} \left[\frac{1}{2} (x - 0)^2\right] &\\
+&= \frac{1}{2} \log \sigma_z^2 
+		  -\frac{1}{2} \sigma_z^{-2} \sigma_z^2 + \frac{1}{2} \left(\sigma_z^2 + \mu_z^2 \right) &\\
+&= - \frac{1}{2} \log \sigma_z^2 + -\frac{1}{2} +\frac{1}{2} \left(\sigma_z^2 + \mu_z^2 \right) &\\
+&= \frac{1}{2} \left[ -\log \sigma_z^2 - 1 + \sigma_z^2 + \mu_z^2 \right]
+\end{align*}
+\end{fleqn}
+
+The same result can be obtained by plugging the given values into the known, general, form of KL given in https://en.wikipedia.org/wiki/Kullback-Leibler\_divergence\#Multivariate\_normal\_distributions
+}
+
+
+\newcommand{\VAESolD}{
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%
+	%%.   YOUR SOLUTION FOR PROBLEM D BELOW THIS COMMENT
+	%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Because a neural network is not guaranteed to output positive values so if we model $\sigma^2$ we cannot really calculate $\sigma$. By modeling $\log \sigma^2$ we can correctly handle negative outputs from the network.
+}
+
+\newcommand{\VAESolEa}{
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%
+	%%.   YOUR SOLUTION FOR PROBLEM E BELOW THIS COMMENT
+	%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Because it allows us to do backwards propagation since the sampling has been moved outside of the propagation "path" in the neural network. A good picture illustrating this is both given in lecture and found in https://stats.stackexchange.com/a/205336/175920
+}
+
+
+\newcommand{\VAESolEb}{
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%
+	%%.   YOUR SOLUTION FOR PROBLEM E BELOW THIS COMMENT
+	%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+$z = \mu_z + \sigma_z \cdot \epsilon$ where $\epsilon \sim \mathcal{N}(0, 1)$
+}
+

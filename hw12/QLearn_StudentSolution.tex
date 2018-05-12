@@ -1,0 +1,67 @@
+\newcommand{\QLearnStudSolA}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\[
+	Q^*(s, a) = \sum_{s\prime \in S} P(s\prime | s, a) \left[
+		R(s, a, s\prime) + \max_{a\prime \in \mathcal{A}_{s\prime}} Q^*(s\prime, a\prime)	
+	\right]
+\]
+}
+
+\newcommand{\QLearnStudSolB}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\[
+	Q(s, a) \leftarrow (1 - \alpha) \cdot Q(s, a) + \alpha \cdot \left(
+		R(s, a, s\prime) + \gamma \cdot \max_{a\prime \in \mathcal{A}_{s\prime}} Q(s\prime, a\prime)	
+	\right)
+\]
+}
+
+\newcommand{\QLearnStudSolC}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Since we are assuming the environment is stochastic given a \textbf{known} state and action pair, it may be the case that there is another action that yields a better reward from the same state. $\epsilon$-greedy allows the agent to \textit{explore} the environment in hope of finding better actions that the ones currently seen. 
+
+You could see $\epsilon$ as a control of the tradeoff between exploitation (always performing the best action) and exploration (potentially resulting in trying new actions).
+}
+
+\newcommand{\QLearnStudSolD}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The main advantage is that it allows us to approximate the probability $P(s\prime | s, a)$ which is, more often than not, unknown. Another reason is that by keeping track of the past experiences ($(s, a, s\prime, r)$ tuples) and sampling randomly it removes the correlation in the observed sequence of states, as explained in \url{https://datascience.stackexchange.com/questions/20535/understanding-experience-replay-in-reinforcement-learning}
+}
+
+\newcommand{\QLearnStudSolE}{
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%%.   YOUR SOLUTION FOR PROBLEM A BELOW THIS COMMENT
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Given the updates performed, and shown in the tables above, we can use 
+\begin{displaymath}
+\pi (s) = \text{arg}\max_{a \in \mathcal{A}_s} Q^*(s, a)
+\end{displaymath}
+
+where $A_s = \{a_1, a_2\}$ for $s \in \{ S_1, S_2 \}$. So
+
+\begin{displaymath}
+	\pi(S_1) = \text{arg}\max_{a \in \mathcal{A}_{S_1}} Q^*(S_1, a) = a_1
+\end{displaymath}
+
+\begin{displaymath}
+	\pi(S_2) = \text{arg} \max_{a \in \mathcal{A}_{S_2}} Q^*(S_2, a) = a_1
+\end{displaymath}
+}
